@@ -1,7 +1,7 @@
 {
     "name": "yydick/config",
     "type": "library",
-    "license": "Apache",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "yydick Chen",
