@@ -1,0 +1,12 @@
+{
+    "name": "yydick/config",
+    "type": "library",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "yydick Chen",
+            "email": "yydick@sohu.com"
+        }
+    ],
+    "require": {}
+}
