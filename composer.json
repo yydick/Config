@@ -1,5 +1,6 @@
 {
     "name": "yydick/config",
+    "description": "Config for Spool",
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
@@ -8,5 +9,14 @@
             "email": "yydick@sohu.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.1.0",
+        "phpunit/phpunit": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spool\\Config\\": "src/",
+            "Spool\\Test\\": "test/"
+        }
+    }
 }
