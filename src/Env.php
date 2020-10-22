@@ -43,7 +43,7 @@ class Env
     //判断.env指定环境文件是否有变更, 以便更新
     protected static $envSelectMd5 = '';
     //单例模式
-    private static $_instance = null;
+    protected static $instance = null;
     /**
      * 私有化构建函数,禁止外部新建类
      */
@@ -57,10 +57,10 @@ class Env
      */
     public static function getInstance(): Env
     {
-        if (!self::$_instance) {
-            self::$_instance = new Env();
+        if (!self::$instance) {
+            self::$instance = new Env();
         }
-        return self::$_instance;
+        return self::$instance;
     }
     /**
      * 默认方法，当做函数来使用
@@ -92,7 +92,7 @@ class Env
      * 
      * @return void
      */
-    private function checkEnvFile(): void
+    protected function checkEnvFile(): void
     {
         $env = $envSelectArr = [];
         $select = $envSelect = $filename = $envMd5 = $envSelectMd5 = '';

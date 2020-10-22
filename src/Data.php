@@ -41,7 +41,7 @@ class Data extends stdClass implements ArrayAccess
     /**
      * 单例模式
      * 
-     * @return Data
+     * @return static
      */
     public static function getInstance(): Data
     {
