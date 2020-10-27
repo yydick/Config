@@ -18,7 +18,7 @@
 namespace Spool\Config;
 
 use Spool\Config\Data;
-
+use Spool\Exception\SpoolException;
 
 /**
  * 用于处理配置信息
@@ -36,15 +36,7 @@ use Spool\Config\Data;
  */
 class Config extends Data
 {
-    /**
-     * 初始化
-     * 
-     * @param array $data 要设置的配置
-     */
-    public function __construct(array $data = [])
-    {
-        $this->bindArray($data);
-    }
+    protected static $path = '';
     /**
      * 判断键名的配置是否存在
      * 
@@ -118,5 +110,56 @@ class Config extends Data
                 $this->data[$key] = $val;
             }
         }
+    }
+    /**
+     * 获取配置目录下所有配置信息
+     * 
+     * @param string $path 配置文件所在目录
+     * 
+     * @return array
+     */
+    public function getConfigFiles(string $path): array
+    {
+        $config = $files = [];
+        if (!is_dir($path)) {
+            throw new SpoolException("{$path} not a directory.");
+        }
+        $files = scandir($path);
+        static::$path = $path;
+        foreach ($files as $file) {
+            $fileInfo = pathinfo($file);
+            $res = $this->checkConfigFiles($fileInfo);
+            if (!$res) {
+                continue;
+            }
+            $key = $fileInfo['filename'];
+            $config[$key] = $res;
+        }
+        static::$data = $config;
+        return $config;
+    }
+    /**
+     * 检测配置文件是否能够解析
+     * 
+     * @param array $fileInfo pathinfo函数返回的文件信息
+     * 
+     * @return array
+     */
+    protected function checkConfigFiles(array $fileInfo): array
+    {
+        $res = [];
+        if (in_array($fileInfo['extension'], ['ini', 'php'], true)) {
+            $ext = $fileInfo['extension'];
+            $filename = static::$path .
+                DIRECTORY_SEPARATOR .
+                $fileInfo['basename'];
+            if ($ext == 'ini') {
+                $res = parse_ini_file($filename, true);
+            }
+            if ($ext == 'php') {
+                $res = require $filename;
+            }
+        }
+        return $res;
     }
 }
